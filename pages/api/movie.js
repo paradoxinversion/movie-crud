@@ -1,4 +1,9 @@
-import Movie from "../../models/Movie";
+import {
+  createMovie,
+  deleteMovie,
+  getMovies,
+  updateMovie,
+} from "../../dbActions/movie";
 import { connectToDatabase } from "../../mongodb";
 
 export default async (req, res) => {
@@ -9,40 +14,35 @@ export default async (req, res) => {
 
     switch (method) {
       case "GET": {
-        const movies = await Movie.find({}).lean();
+        const movies = await getMovies();
         res.status(200).json({ movies });
         break;
       }
+
       case "POST": {
         const { title, format, length, releaseYear, rating } = req.body;
-        const newMovie = new Movie({
+        const movie = await createMovie(
           title,
           format,
           length,
           releaseYear,
-          rating,
-        });
-
-        await newMovie.save();
-        res.status(200).json({ msg: "Movie Saved!" });
-      }
-      case "PUT": {
-        const { id } = req.body;
-        const updateFields = req.body.updateMovieFields;
-        if (!id || !updateFields) {
-          throw new Error(
-            "ID and/or Update fields are missing from request body. Please modify your request and try again."
-          );
-        }
-        const movieUpdate = await Movie.findByIdAndUpdate(id, updateFields, {
-          new: true,
-          lean: true,
-          runValidators: true,
-        });
-        res.status(200).json({ msg: "Movie Updated!", movie: movieUpdate });
+          rating
+        );
+        res.status(201).json({ msg: "Movie Saved!", movie });
         break;
       }
+
+      case "PUT": {
+        const { id, updateMovieFields: updateFields } = req.body;
+        const movie = await updateMovie(id, updateFields);
+        res.status(200).json({ msg: "Movie Updated!", movie });
+        break;
+      }
+
       case "DELETE": {
+        const { id } = req.body;
+        await deleteMovie(id);
+        res.status(200).json({ msg: "Movie Deleted!" });
         break;
       }
     }
