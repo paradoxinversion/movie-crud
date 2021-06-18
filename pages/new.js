@@ -2,10 +2,10 @@ import CreateMovie from "../components/Forms/CreateMovie";
 
 function NewMovie() {
   return (
-    <div>
-      <p>Add a new Movie</p>
+    <main className="max-w-prose m-auto">
+      <p className="text-2xl mb-4">Add a new Movie</p>
       <CreateMovie />
-    </div>
+    </main>
   );
 }
 export default NewMovie;

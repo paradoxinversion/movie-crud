@@ -1,33 +1,33 @@
 import Link from "next/link";
-
 import PropTypes from "prop-types";
 import { MOVIE_FORMATS } from "../utils";
 
 function Movie(props) {
   const {
     movie: { title, format, length, releaseYear, rating, _id },
-    setMovieEditState,
   } = props;
   return (
-    <div className="border rounded">
-      <p>{title}</p>
-      <p>Release: {releaseYear}</p>
-      <p>{length} minutes</p>
-      <p>Format: {format}</p>
-      <p>Rating: {rating}/5</p>
-      {setMovieEditState && (
+    <div className="border rounded p-2">
+      <div className="mb-4">
+        <strong className="text-bold">{title}</strong>
+        <p>Release: {releaseYear}</p>
+        <p>{length} minutes</p>
+        <p>Format: {format}</p>
+        <p>Rating: {rating}/5</p>
+      </div>
+      <div className="flex justify-between">
         <Link href={`/edit/${_id}`}>
-          <a>Update Movie</a>
+          <a className="border rounded p-1">Update Movie</a>
         </Link>
-      )}
-      <button
-        onClick={() => {
-          //delete movie logic
-          props.deleteMovie(_id);
-        }}
-      >
-        Delete Movie
-      </button>
+        <button
+          className="border rounded p-1 bg-red-500 text-white"
+          onClick={() => {
+            props.deleteMovie(_id);
+          }}
+        >
+          Delete Movie
+        </button>
+      </div>
     </div>
   );
 }

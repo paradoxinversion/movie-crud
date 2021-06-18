@@ -19,8 +19,8 @@ function UpdateMoviePage() {
     }
   }, [router.query.id]);
   return (
-    <div>
-      <p>Add a new Movie</p>
+    <div className="max-w-prose m-auto">
+      <p className="text-2xl mb-4">Update Movie</p>
       {movieData && <UpdateMovie movieData={movieData} />}
     </div>
   );

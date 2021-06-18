@@ -29,103 +29,112 @@ function UpdateMovie(props) {
 
   const initialValues = { ...props.movieData };
   return (
-    <div>
-      <Formik
-        validationSchema={updateMovieSchema}
-        initialValues={initialValues}
-        onSubmit={async (values, { setSubmitting }) => {
-          const updateMovieFields = Object.keys(values).reduce(
-            (updatedFieldsObject, movieField) => {
-              if (values[movieField] !== initialValues[movieField]) {
-                updatedFieldsObject[movieField] = values[movieField];
-              }
-              return updatedFieldsObject;
-            },
-            {}
-          );
+    <Formik
+      validationSchema={updateMovieSchema}
+      initialValues={initialValues}
+      onSubmit={async (values, { setSubmitting }) => {
+        const updateMovieFields = Object.keys(values).reduce(
+          (updatedFieldsObject, movieField) => {
+            if (values[movieField] !== initialValues[movieField]) {
+              updatedFieldsObject[movieField] = values[movieField];
+            }
+            return updatedFieldsObject;
+          },
+          {}
+        );
 
-          const requestBody = {
-            id: props.movieData._id,
-            updateMovieFields,
-          };
-          const res = await axios.put("/api/movie", requestBody);
-          router.push("/");
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form className="flex flex-col">
-            <label htmlFor="title">Title</label>
-            <Field
-              className="border rounded"
-              id="title"
-              type="text"
-              name="title"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="title"
-              component="div"
-            />
-            <label htmlFor="format">Format</label>
-            <Field
-              className="border rounded"
-              id="format"
-              as="select"
-              name="format"
+        const requestBody = {
+          id: props.movieData._id,
+          updateMovieFields,
+        };
+        await axios.put("/api/movie", requestBody);
+        router.push("/");
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form className="flex flex-col">
+          <label htmlFor="title">Title</label>
+          <Field
+            className="border rounded"
+            id="title"
+            type="text"
+            name="title"
+          />
+          <ErrorMessage className="text-red-700" name="title" component="div" />
+          <label htmlFor="format">Format</label>
+          <Field
+            className="border rounded"
+            id="format"
+            as="select"
+            name="format"
+          >
+            <option value="">Select a Format</option>
+            <option value="Streaming">Streaming</option>
+            <option value="DVD">DVD</option>
+            <option value="VHS">VHS</option>
+          </Field>
+          <ErrorMessage
+            className="text-red-700"
+            name="format"
+            component="div"
+          />
+          <label htmlFor="length">Length</label>
+          <Field
+            className="border rounded"
+            id="length"
+            type="text"
+            name="length"
+          />
+          <ErrorMessage
+            className="text-red-700"
+            name="length"
+            component="div"
+          />
+          <label htmlFor="release-year">Release Year</label>
+          <Field
+            className="border rounded"
+            id="release-year"
+            type="text"
+            name="releaseYear"
+          />
+          <ErrorMessage
+            className="text-red-700"
+            name="releaseYear"
+            component="div"
+          />
+          <label htmlFor="rating">Rating</label>
+          <Field
+            className="border rounded"
+            id="rating"
+            type="text"
+            name="rating"
+          />
+          <ErrorMessage
+            className="text-red-700"
+            name="rating"
+            component="div"
+          />
+          <div className="flex justify-between">
+            <button
+              className="border rounded p-2 mt-4"
+              type="submit"
+              disabled={isSubmitting}
             >
-              <option value="">Select a Format</option>
-              <option value="Streaming">Streaming</option>
-              <option value="DVD">DVD</option>
-              <option value="VHS">VHS</option>
-            </Field>
-            <ErrorMessage
-              className="text-red-700"
-              name="format"
-              component="div"
-            />
-            <label htmlFor="length">Length</label>
-            <Field
-              className="border rounded"
-              id="length"
-              type="text"
-              name="length"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="length"
-              component="div"
-            />
-            <label htmlFor="release-year">Release Year</label>
-            <Field
-              className="border rounded"
-              id="release-year"
-              type="text"
-              name="releaseYear"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="releaseYear"
-              component="div"
-            />
-            <label htmlFor="rating">Rating</label>
-            <Field
-              className="border rounded"
-              id="rating"
-              type="text"
-              name="rating"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="rating"
-              component="div"
-            />
-            <button type="submit" disabled={isSubmitting}>
               Update Movie
             </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+            <button
+              className="border rounded p-2 mt-4"
+              onClick={() => {
+                router.push("/");
+              }}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
 

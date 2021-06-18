@@ -24,106 +24,110 @@ const createMovieSchema = yup.object().shape({
     .required(),
   rating: yup.number().min(MOVIE_RATING_MIN).max(MOVIE_RATING_MAX).required(),
 });
-function CreateMovie(props) {
+function CreateMovie() {
   const router = useRouter();
   return (
-    <div>
-      <p>Create Movie</p>
-      <Formik
-        validationSchema={createMovieSchema}
-        initialValues={{
-          title: "",
-          format: "",
-          length: "",
-          releaseYear: "",
-          rating: "",
-        }}
-        onSubmit={async (values, { setSubmitting }) => {
-          const res = await axios.post("/api/movie", values);
-          router.push("/");
-        }}
-      >
-        {({ isSubmitting }) => (
-          <Form className="flex flex-col">
-            <label htmlFor="title">Title</label>
-            <Field
-              className="border rounded"
-              id="title"
-              type="text"
-              name="title"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="title"
-              component="div"
-            />
-            <label htmlFor="format">Format</label>
-            <Field
-              className="border rounded"
-              id="format"
-              as="select"
-              name="format"
+    <Formik
+      validationSchema={createMovieSchema}
+      initialValues={{
+        title: "",
+        format: "",
+        length: "",
+        releaseYear: "",
+        rating: "",
+      }}
+      onSubmit={async (values) => {
+        await axios.post("/api/movie", values);
+        router.push("/");
+      }}
+    >
+      {({ isSubmitting }) => (
+        <Form className="flex flex-col">
+          <label htmlFor="title">Title</label>
+          <Field
+            className="border rounded"
+            id="title"
+            type="text"
+            name="title"
+          />
+          <ErrorMessage
+            className="text-red-700 text-sm"
+            name="title"
+            component="div"
+          />
+          <label htmlFor="format">Format</label>
+          <Field
+            className="border rounded"
+            id="format"
+            as="select"
+            name="format"
+          >
+            <option value="">Select a Format</option>
+            <option value="Streaming">Streaming</option>
+            <option value="DVD">DVD</option>
+            <option value="VHS">VHS</option>
+          </Field>
+          <ErrorMessage
+            className="text-red-700 text-sm"
+            name="format"
+            component="div"
+          />
+          <label htmlFor="length">Length</label>
+          <Field
+            className="border rounded"
+            id="length"
+            type="text"
+            name="length"
+          />
+          <ErrorMessage
+            className="text-red-700 text-sm"
+            name="length"
+            component="div"
+          />
+          <label htmlFor="release-year">Release Year</label>
+          <Field
+            className="border rounded"
+            id="release-year"
+            type="text"
+            name="releaseYear"
+          />
+          <ErrorMessage
+            className="text-red-700 text-sm"
+            name="releaseYear"
+            component="div"
+          />
+          <label htmlFor="rating">Rating</label>
+          <Field
+            className="border rounded"
+            id="rating"
+            type="text"
+            name="rating"
+          />
+          <ErrorMessage
+            className="text-red-700 text-sm"
+            name="rating"
+            component="div"
+          />
+          <div className="flex justify-between mt-4">
+            <button
+              className="border rounded p-2"
+              type="submit"
+              disabled={isSubmitting}
             >
-              <option value="">Select a Format</option>
-              <option value="Streaming">Streaming</option>
-              <option value="DVD">DVD</option>
-              <option value="VHS">VHS</option>
-            </Field>
-            <ErrorMessage
-              className="text-red-700"
-              name="format"
-              component="div"
-            />
-            <label htmlFor="length">Length</label>
-            <Field
-              className="border rounded"
-              id="length"
-              type="text"
-              name="length"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="length"
-              component="div"
-            />
-            <label htmlFor="release-year">Release Year</label>
-            <Field
-              className="border rounded"
-              id="release-year"
-              type="text"
-              name="releaseYear"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="releaseYear"
-              component="div"
-            />
-            <label htmlFor="rating">Rating</label>
-            <Field
-              className="border rounded"
-              id="rating"
-              type="text"
-              name="rating"
-            />
-            <ErrorMessage
-              className="text-red-700"
-              name="rating"
-              component="div"
-            />
-            <button type="submit" disabled={isSubmitting}>
               Add Movie
             </button>
             <button
+              className="border rounded p-2"
               onClick={() => {
-                props.hideForm && props.hideForm();
+                router.push("/");
               }}
             >
               Cancel
             </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
+          </div>
+        </Form>
+      )}
+    </Formik>
   );
 }
 
