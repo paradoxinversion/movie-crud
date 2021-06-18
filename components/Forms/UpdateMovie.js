@@ -22,7 +22,11 @@ const updateMovieSchema = yup.object().shape({
     .max(MOVIE_RELEASE_YEAR_MAX),
   rating: yup.number().min(MOVIE_RATING_MIN).max(MOVIE_RATING_MAX),
 });
+import { useRouter } from "next/router";
+
 function UpdateMovie(props) {
+  const router = useRouter();
+
   const initialValues = { ...props.movieData };
   return (
     <div>
@@ -30,7 +34,7 @@ function UpdateMovie(props) {
         validationSchema={updateMovieSchema}
         initialValues={initialValues}
         onSubmit={async (values, { setSubmitting }) => {
-          const updatedFields = Object.keys(values).reduce(
+          const updateMovieFields = Object.keys(values).reduce(
             (updatedFieldsObject, movieField) => {
               if (values[movieField] !== initialValues[movieField]) {
                 updatedFieldsObject[movieField] = values[movieField];
@@ -40,9 +44,12 @@ function UpdateMovie(props) {
             {}
           );
 
-          const requestBody = { id: props.movieData._id, updatedFields };
+          const requestBody = {
+            id: props.movieData._id,
+            updateMovieFields,
+          };
           const res = await axios.put("/api/movie", requestBody);
-          console.log(res);
+          router.push("/");
         }}
       >
         {({ isSubmitting }) => (

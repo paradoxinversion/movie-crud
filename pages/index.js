@@ -1,21 +1,37 @@
 import CreateMovie from "../components/Forms/CreateMovie";
 import UpdateMovie from "../components/Forms/UpdateMovie";
 import Head from "next/head";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MovieList from "../components/MovieList";
 function HomePage() {
   const [movieData, setMovieData] = useState([]);
   const [showMovieCreate, setShowMovieCreate] = useState(false);
+  const [showMovieUpdate, setShowMovieUpdate] = useState(false);
+  const [movieFormData, setMovieFormData] = useState({
+    form: null,
+    formData: null,
+  });
   useEffect(() => {
     const getMovies = async () => {
       const getMoviesResponse = await axios.get("/api/movie");
-      debugger;
       setMovieData(getMoviesResponse.data.movies);
     };
     getMovies();
   }, []);
 
+  const setMovieEditState = (movieData) => {
+    setMovieFormData({
+      form: "edit",
+      formData: movieData,
+    });
+  };
+  const deleteMovie = async (id) => {
+    await axios.delete("/api/movie", { data: { id } });
+    const remainingMovies = movieData.filter((movie) => movie._id !== id);
+    setMovieData(remainingMovies);
+  };
   return (
     <div>
       <Head>
@@ -25,13 +41,9 @@ function HomePage() {
         />
       </Head>
       <p>Movie CRUD</p>
-      <button
-        onClick={() => {
-          setShowMovieCreate(true);
-        }}
-      >
-        Add a Movie
-      </button>
+      <Link href="/new">
+        <a>Add a Movie</a>
+      </Link>
       {showMovieCreate && (
         <CreateMovie
           hideForm={() => {
@@ -39,7 +51,14 @@ function HomePage() {
           }}
         />
       )}
-      <MovieList movieData={movieData} />
+      {movieFormData.form === "edit" && movieFormData.formData && (
+        <UpdateMovie movieData={movieFormData.formData} />
+      )}
+      <MovieList
+        setMovieEditState={setMovieEditState}
+        deleteMovie={deleteMovie}
+        movieData={movieData}
+      />
     </div>
   );
 }

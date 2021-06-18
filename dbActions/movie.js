@@ -4,6 +4,10 @@ export const getMovies = async () => {
   return await Movie.find({}).lean();
 };
 
+export const getMovie = async (id) => {
+  return await Movie.findById(id).lean();
+};
+
 export const createMovie = async (
   title,
   format,

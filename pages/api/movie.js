@@ -1,6 +1,7 @@
 import {
   createMovie,
   deleteMovie,
+  getMovie,
   getMovies,
   updateMovie,
 } from "../../dbActions/movie";
@@ -14,8 +15,14 @@ export default async (req, res) => {
 
     switch (method) {
       case "GET": {
-        const movies = await getMovies();
-        res.status(200).json({ movies });
+        // if there's a query, we're getting a single movie
+        if (req.query.id) {
+          const movie = await getMovie(req.query.id);
+          res.status(200).json({ movie });
+        } else {
+          const movies = await getMovies();
+          res.status(200).json({ movies });
+        }
         break;
       }
 

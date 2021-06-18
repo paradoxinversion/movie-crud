@@ -11,7 +11,8 @@ import {
   MOVIE_TITLE_MIN,
 } from "../../utils";
 import * as yup from "yup";
-
+import axios from "axios";
+import { useRouter } from "next/router";
 const createMovieSchema = yup.object().shape({
   title: yup.string().min(MOVIE_TITLE_MIN).max(MOVIE_TITLE_MAX).required(),
   format: yup.string().oneOf(MOVIE_FORMATS).required(),
@@ -24,6 +25,7 @@ const createMovieSchema = yup.object().shape({
   rating: yup.number().min(MOVIE_RATING_MIN).max(MOVIE_RATING_MAX).required(),
 });
 function CreateMovie(props) {
+  const router = useRouter();
   return (
     <div>
       <p>Create Movie</p>
@@ -36,8 +38,9 @@ function CreateMovie(props) {
           releaseYear: "",
           rating: "",
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          console.log(values);
+        onSubmit={async (values, { setSubmitting }) => {
+          const res = await axios.post("/api/movie", values);
+          router.push("/");
         }}
       >
         {({ isSubmitting }) => (
