@@ -6,9 +6,17 @@ import {
   updateMovie,
 } from "../../dbActions/movie";
 import { connectToDatabase } from "../../mongodb";
-
+import { getSession } from "next-auth/client";
 export default async (req, res) => {
   const { method } = req;
+  const session = await getSession({ req });
+
+  // If there's no user session reject all requests.
+  if (!session) {
+    res.status(401);
+    res.end();
+    return;
+  }
 
   try {
     await connectToDatabase();
