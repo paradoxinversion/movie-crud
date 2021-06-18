@@ -1,15 +1,30 @@
 import mongoose, { Schema } from "mongoose";
+import {
+  MOVIE_FORMATS,
+  MOVIE_LENGTH_MAX,
+  MOVIE_LENGTH_MIN,
+  MOVIE_RATING_MAX,
+  MOVIE_RATING_MIN,
+  MOVIE_RELEASE_YEAR_MAX,
+  MOVIE_RELEASE_YEAR_MIN,
+  MOVIE_TITLE_MAX,
+  MOVIE_TITLE_MIN,
+} from "../utils";
 
 const MovieSchema = new Schema({
   title: {
     type: String,
-    minLength: 1,
-    maxLength: 50,
+    minLength: MOVIE_TITLE_MIN,
+    maxLength: MOVIE_TITLE_MAX,
   },
-  format: { type: String, enum: ["VHS", "DVD", "Streaming"] },
-  length: { type: Number, min: 0, max: 500 },
-  releaseYear: { type: Number, min: 1800, max: 2100 },
-  rating: { type: Number, min: 1, max: 5 },
+  format: { type: String, enum: MOVIE_FORMATS },
+  length: { type: Number, min: MOVIE_LENGTH_MIN, max: MOVIE_LENGTH_MAX },
+  releaseYear: {
+    type: Number,
+    min: MOVIE_RELEASE_YEAR_MIN,
+    max: MOVIE_RELEASE_YEAR_MAX,
+  },
+  rating: { type: Number, min: MOVIE_RATING_MIN, max: MOVIE_RATING_MAX },
 });
 
 let Movie;

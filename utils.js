@@ -1,0 +1,9 @@
+export const MOVIE_FORMATS = ["VHS", "DVD", "Streaming"];
+export const MOVIE_TITLE_MIN = 1;
+export const MOVIE_TITLE_MAX = 50;
+export const MOVIE_LENGTH_MIN = 0;
+export const MOVIE_LENGTH_MAX = 500;
+export const MOVIE_RELEASE_YEAR_MIN = 1800;
+export const MOVIE_RELEASE_YEAR_MAX = 2100;
+export const MOVIE_RATING_MIN = 1;
+export const MOVIE_RATING_MAX = 5;

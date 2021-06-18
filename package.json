@@ -6,11 +6,15 @@
   "author": "Jedai Saboteur <paradox.inversion@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.21.1",
+    "formik": "^2.2.9",
     "mongodb-client-encryption": "^1.2.5",
     "mongoose": "^5.12.14",
     "next": "^11.0.0",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "dev": "next dev",
