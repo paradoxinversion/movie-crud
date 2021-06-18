@@ -1,0 +1,19 @@
+{
+  "name": "movie-crud",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/paradoxinversion/movie-crud.git",
+  "author": "Jedai Saboteur <paradox.inversion@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^11.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  }
+}
