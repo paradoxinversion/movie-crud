@@ -23,7 +23,8 @@ export default async (req, res) => {
           rating,
         });
 
-        newMovie.save();
+        await newMovie.save();
+        res.status(200).json({ msg: "Movie Saved!" });
       }
       case "PUT": {
         break;
